@@ -9,16 +9,20 @@ class Boid{
     public:
 
         //constructors
-        Boid(Position pos, Speed spe);
+        Boid(Position position_boid, Speed speed_boid);
         Boid();
 
-        Position boid_pos() const;
-        Speed boid_spe() const;
+        //return funtions
+        Position return_boid_pos() const;
+        Speed return_boid_spe() const;
 
+        void move_boid();
+        void check_edge();
+        void check_speed();
 
     private:
-        Position pos;
-        Speed spe;
+        Position position_boid;
+        Speed speed_boid;
 };
 
 #endif
