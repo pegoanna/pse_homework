@@ -12,6 +12,9 @@ class Position{
         int x_pos() const;
         int y_pos() const;
 
+        void set_x_pos(int px);
+        void set_y_pos(int py);
+
 
     private:
         int x;

@@ -11,7 +11,11 @@ class Speed{
         //const members
         int x_spe() const;
         int y_spe() const;
+        void set_x_spe(int sx);
+        void set_y_spe(int sy);
 
+        //function
+        int abs_speed();
 
     private:
         int vx;

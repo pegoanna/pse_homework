@@ -32,3 +32,11 @@ int Position::x_pos() const{
 int Position::y_pos() const{
     return y;
 }
+
+//set position value
+void Position::set_x_pos(int px){
+    x=px;
+}
+void Position::set_y_pos(int py){
+    y=py;
+}

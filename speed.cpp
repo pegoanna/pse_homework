@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
+#include <math.h>
 
 #include "speed.h"
-
 //constructor
 Speed::Speed(int vxx, int vyy)
     :vx{vxx}, vy{vyy}
@@ -32,3 +32,17 @@ int Speed::x_spe() const{
 int Speed::y_spe() const{
     return vy;
 }
+
+// set speed value
+void Speed::set_x_spe(int sx){
+    vx=sx;
+}
+void Speed::set_y_spe(int sy){
+    vy=sy;
+}
+
+//calcolo velocità assoluta
+int Speed::abs_speed(){
+    return sqrt(vx*vx + vy*vy);
+}
+
