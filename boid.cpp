@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 #include <vector>
+#include <math.h>
 
 #include "boid.h"
 
@@ -9,6 +10,8 @@ using namespace std;
 #define RIGHTMARGIN 1910
 #define BOTTOMMARGIN 10
 #define TOPMARGIN 1070
+#define DSEP 10
+#define AVOIDFACTOR 10
 
 
 #define MAXSPEED 20
@@ -72,13 +75,26 @@ void Boid::check_speed(){
     }
 }
 
+float Boid::distance(Boid& second_boid){
+    float deltax=position_boid.x_pos() - second_boid.position_boid.x_pos();
+    float deltay=position_boid.y_pos() - second_boid.position_boid.y_pos();
+
+    return sqrt((deltax*deltax)+deltay*deltay);
+}
 
 
 
-
-/*void Boid::separazione(vector<Boid>& otherboid){
+void Boid::separation(vector<Boid>& otherboid){
     float close_dx{0};
     float close_dy{0};
     
-
-}*/
+    for(auto itr=otherboid.begin(); itr<otherboid.end(); ++itr){
+        if(distance(*itr) < DSEP){
+            close_dx += position_boid.x_pos() - itr->position_boid.x_pos();
+            close_dy += position_boid.y_pos() - itr->position_boid.y_pos();
+        }
+    }
+    
+    speed_boid.set_x_spe(speed_boid.x_spe() + close_dx * AVOIDFACTOR);
+    speed_boid.set_y_spe(speed_boid.y_spe() + close_dy * AVOIDFACTOR);
+}

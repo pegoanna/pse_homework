@@ -15,7 +15,6 @@ class Position{
         void set_x_pos(float px);
         void set_y_pos(float py);
 
-
     private:
         float x;
         float y;

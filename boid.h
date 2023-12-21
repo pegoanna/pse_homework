@@ -19,8 +19,10 @@ class Boid{
         void move_boid();
         void check_edge();
         void check_speed();
+        //funzione per il calcolo della distanza
+        float distance(Boid& second_boid);
 
-        void separazione(vector<Boid>& otherboid);
+        void separation(vector<Boid>& otherboid);
 
     private:
         Position position_boid;
