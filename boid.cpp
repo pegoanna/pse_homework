@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+#include <vector>
 
 #include "boid.h"
 
@@ -70,3 +71,14 @@ void Boid::check_speed(){
         speed_boid.set_y_spe((speed_boid.y_spe()/speed_boid.abs_speed())*MAXSPEED);
     }
 }
+
+
+
+
+
+/*void Boid::separazione(vector<Boid>& otherboid){
+    float close_dx{0};
+    float close_dy{0};
+    
+
+}*/

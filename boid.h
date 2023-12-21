@@ -20,6 +20,8 @@ class Boid{
         void check_edge();
         void check_speed();
 
+        void separazione(vector<Boid>& otherboid);
+
     private:
         Position position_boid;
         Speed speed_boid;

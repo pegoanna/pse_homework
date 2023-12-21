@@ -5,21 +5,21 @@
 class Speed{
     public:
         //constructors
-        Speed(int vx, int vy);
+        Speed(float vx, float vy);
         Speed();
 
         //const members
-        int x_spe() const;
-        int y_spe() const;
-        void set_x_spe(int sx);
-        void set_y_spe(int sy);
+        float x_spe() const;
+        float y_spe() const;
+        void set_x_spe(float sx);
+        void set_y_spe(float sy);
 
         //function
-        int abs_speed();
+        float abs_speed();
 
     private:
-        int vx;
-        int vy;    
+        float vx;
+        float vy;    
 };
 
 #endif

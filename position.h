@@ -5,20 +5,20 @@
 class Position{
     public:
         //constructors
-        Position(int x, int y);
+        Position(float x, float y);
         Position();
 
         //const members
-        int x_pos() const;
-        int y_pos() const;
+        float x_pos() const;
+        float y_pos() const;
 
-        void set_x_pos(int px);
-        void set_y_pos(int py);
+        void set_x_pos(float px);
+        void set_y_pos(float py);
 
 
     private:
-        int x;
-        int y;
+        float x;
+        float y;
 };
 
 #endif

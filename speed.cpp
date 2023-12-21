@@ -4,7 +4,7 @@ using namespace std;
 
 #include "speed.h"
 //constructor
-Speed::Speed(int vxx, int vyy)
+Speed::Speed(float vxx, float vyy)
     :vx{vxx}, vy{vyy}
 {
     if (vx<0 || vx>100 || vy<0 || vy>100)
@@ -25,24 +25,24 @@ Speed::Speed()
 }
 
 //return x e y
-int Speed::x_spe() const{
+float Speed::x_spe() const{
     return vx;
 }
 
-int Speed::y_spe() const{
+float Speed::y_spe() const{
     return vy;
 }
 
 // set speed value
-void Speed::set_x_spe(int sx){
+void Speed::set_x_spe(float sx){
     vx=sx;
 }
-void Speed::set_y_spe(int sy){
+void Speed::set_y_spe(float sy){
     vy=sy;
 }
 
 //calcolo velocità assoluta
-int Speed::abs_speed(){
+float Speed::abs_speed(){
     return sqrt(vx*vx + vy*vy);
 }
 

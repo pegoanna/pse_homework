@@ -4,7 +4,7 @@ using namespace std;
 #include "position.h"
 
 //constructor
-Position::Position(int xx, int yy)
+Position::Position(float xx, float yy)
     :x{xx}, y{yy}
 {
     if (x<0 || x>1920 || y<0 || y>1080)
@@ -25,18 +25,18 @@ Position::Position()
 }
 
 //return x e y
-int Position::x_pos() const{
+float Position::x_pos() const{
     return x;
 }
 
-int Position::y_pos() const{
+float Position::y_pos() const{
     return y;
 }
 
 //set position value
-void Position::set_x_pos(int px){
+void Position::set_x_pos(float px){
     x=px;
 }
-void Position::set_y_pos(int py){
+void Position::set_y_pos(float py){
     y=py;
 }
