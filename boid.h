@@ -23,6 +23,7 @@ class Boid{
         float distance(Boid& second_boid);
 
         void separation(vector<Boid>& otherboid);
+        void alignment(vector<Boid>& otherboid);
         void cohesion(vector<Boid>& otherboid);
 
     private:
