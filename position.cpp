@@ -1,16 +1,19 @@
 #include <iostream>
 using namespace std;
+#include <ostream>
+using std::ostream;
 
 #include "position.h"
+
+#define LEFTMARGIN 2
+#define RIGHTMARGIN 48
+#define BOTTOMMARGIN 2
+#define TOPMARGIN 28
 
 //constructor
 Position::Position(float xx, float yy)
     :x{xx}, y{yy}
 {
-    if (x<0 || x>1920 || y<0 || y>1080)
-    cerr <<"invalidate position\n";
-    exit(1);
-
 }
 
 const Position& default_position()
@@ -21,7 +24,9 @@ const Position& default_position()
 
 Position::Position()
     :x{default_position().x_pos()}, y{default_position().y_pos()}
-{ 
+{
+   // x += static_cast<float> (rand())/(RAND_MAX/(RIGHTMARGIN - LEFTMARGIN ));
+   // y += static_cast<float> (rand())/(RAND_MAX/(TOPMARGIN - BOTTOMMARGIN ));
 }
 
 //return x e y
@@ -39,4 +44,12 @@ void Position::set_x_pos(float px){
 }
 void Position::set_y_pos(float py){
     y=py;
+}
+     
+
+// operators
+ostream& operator<<(ostream& os, const Position& p)
+{
+	return os << '(' << p.x_pos()
+		<< ',' << p.y_pos() << ')';
 }

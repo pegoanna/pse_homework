@@ -4,6 +4,9 @@
 
 #include "position.h"
 #include "speed.h"
+#include <vector>
+using std::vector;
+#include <ostream>
 
 class Boid{
     public:
@@ -30,5 +33,9 @@ class Boid{
         Position position_boid;
         Speed speed_boid;
 };
+
+
+// operators
+        std::ostream& operator<<(std::ostream& os, const Boid& b);
 
 #endif

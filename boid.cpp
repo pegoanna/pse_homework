@@ -1,24 +1,25 @@
 #include <iostream>
 using namespace std;
-#include <vector>
 #include <math.h>
-
+#include <ostream>
+using std::ostream;
 #include "boid.h"
+#include <vector>
+using std::vector;
 
 #define TURNFACTOR 2
-#define LEFTMARGIN 10
-#define RIGHTMARGIN 1910
-#define BOTTOMMARGIN 10
-#define TOPMARGIN 1070
+#define LEFTMARGIN 2
+#define RIGHTMARGIN 48
+#define BOTTOMMARGIN 2
+#define TOPMARGIN 28
 #define D_SEP 10
 #define D_CA 10
 #define AVOIDFACTOR 10
 #define ALIGNFACTOR 10
 #define CENTERINGFACTOR 10
 
-
-#define MAXSPEED 20
-#define MINSPEED 0
+#define MAXSPEED 10
+#define MINSPEED 2
 
 
 //constructor
@@ -36,6 +37,8 @@ const Boid& default_boid()
 Boid::Boid()
     :position_boid{default_boid().return_boid_pos()}, speed_boid{default_boid().return_boid_spe()}
 { 
+    position_boid.set_x_pos( position_boid.x_pos() + static_cast<float> (rand())/(RAND_MAX/(RIGHTMARGIN - LEFTMARGIN )));
+    position_boid.set_y_pos( position_boid.y_pos() + static_cast<float> (rand())/(RAND_MAX/(TOPMARGIN - BOTTOMMARGIN )));
 }
 
 //return pos e spe boid
@@ -82,7 +85,7 @@ float Boid::distance(Boid& second_boid){
     float deltax=position_boid.x_pos() - second_boid.position_boid.x_pos();
     float deltay=position_boid.y_pos() - second_boid.position_boid.y_pos();
 
-    return sqrt((deltax*deltax)+deltay*deltay);
+    return sqrt((deltax*deltax)+(deltay*deltay));
 }
 
 
@@ -144,4 +147,11 @@ void Boid::cohesion(vector<Boid>& otherboid){
 
     speed_boid.set_x_spe((xpos_avg - position_boid.x_pos())*CENTERINGFACTOR);
     speed_boid.set_y_spe((ypos_avg - position_boid.y_pos())*CENTERINGFACTOR);
+}
+
+// operators
+ostream& operator<<(ostream& os, const Boid& b)
+{
+	return os << '(' << b.return_boid_pos()
+		<< ',' << b.return_boid_spe() << ')';
 }

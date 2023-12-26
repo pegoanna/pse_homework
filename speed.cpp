@@ -1,21 +1,23 @@
 #include <iostream>
 using namespace std;
+#include <ostream>
+using std::ostream;
 #include <math.h>
 
 #include "speed.h"
+
+#define MINSPEED 2
+#define MAXSPEED 10
+
 //constructor
 Speed::Speed(float vxx, float vyy)
     :vx{vxx}, vy{vyy}
 {
-    if (vx<0 || vx>100 || vy<0 || vy>100)
-    cerr <<"invalidate speed\n";
-    exit(1);
-
 }
 
 const Speed& default_speed()
 {
-    static Speed ss{0,0};
+    static Speed ss{MINSPEED,MINSPEED};
     return ss;
 }
 
@@ -46,3 +48,10 @@ float Speed::abs_speed(){
     return sqrt(vx*vx + vy*vy);
 }
 
+
+// operators
+ostream& operator<<(ostream& os, const Speed& s)
+{
+	return os << '(' << s.x_spe()
+		<< ',' << s.y_spe() << ')';
+}

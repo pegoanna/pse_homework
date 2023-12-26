@@ -2,6 +2,8 @@
 #ifndef POSITION_H
 #define POSITION_H
 
+#include <ostream>
+
 class Position{
     public:
         //constructors
@@ -19,5 +21,10 @@ class Position{
         float x;
         float y;
 };
+
+
+// operators
+        std::ostream& operator<<(std::ostream& os, const Position& p);
+   
 
 #endif

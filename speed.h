@@ -2,6 +2,8 @@
 #ifndef SPEED_H
 #define SPEED_H
 
+#include <ostream>
+
 class Speed{
     public:
         //constructors
@@ -21,5 +23,10 @@ class Speed{
         float vx;
         float vy;    
 };
+
+
+// operators
+        std::ostream& operator<<(std::ostream& os, const Speed& s);
+   
 
 #endif
