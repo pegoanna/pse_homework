@@ -10,7 +10,7 @@ using std::vector;
 using namespace std;
 
 #define DIM_VECTOR 1
-#define NUMBER_MOVEMENT 20
+#define NUMBER_MOVEMENT 50
 int main()
 {
 
