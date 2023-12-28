@@ -7,7 +7,7 @@ using std::ostream;
 #include "speed.h"
 
 #define MINSPEED 2
-#define MAXSPEED 10
+#define MAXSPEED 7
 
 //constructor
 Speed::Speed(float vxx, float vyy)
@@ -45,7 +45,7 @@ void Speed::set_y_spe(float sy){
 
 //calcolo velocità assoluta
 float Speed::abs_speed(){
-    return sqrt(vx*vx + vy*vy);
+    return sqrt((vx*vx) + (vy*vy));
 }
 
 

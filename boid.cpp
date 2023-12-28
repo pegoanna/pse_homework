@@ -12,13 +12,13 @@ using std::vector;
 #define RIGHTMARGIN 48
 #define BOTTOMMARGIN 2
 #define TOPMARGIN 28
-#define D_SEP 10
-#define D_CA 10
-#define AVOIDFACTOR 10
-#define ALIGNFACTOR 10
-#define CENTERINGFACTOR 10
+#define D_SEP 5
+#define D_CA 2
+#define AVOIDFACTOR 1
+#define ALIGNFACTOR 1
+#define CENTERINGFACTOR 1
 
-#define MAXSPEED 10
+#define MAXSPEED 7
 #define MINSPEED 2
 
 
@@ -39,6 +39,10 @@ Boid::Boid()
 { 
     position_boid.set_x_pos( position_boid.x_pos() + static_cast<float> (rand())/(RAND_MAX/(RIGHTMARGIN - LEFTMARGIN )));
     position_boid.set_y_pos( position_boid.y_pos() + static_cast<float> (rand())/(RAND_MAX/(TOPMARGIN - BOTTOMMARGIN )));
+    float abs_speed{MINSPEED + static_cast <float> (rand())/(RAND_MAX/(MAXSPEED - MINSPEED ))};
+    speed_boid.set_x_spe(static_cast<float> (rand())/(RAND_MAX/( 2 * abs_speed)) - abs_speed);
+    float vy_abs{sqrt(abs_speed*abs_speed - speed_boid.x_spe()*speed_boid.x_spe())};
+    speed_boid.set_y_spe(2 * vy_abs * signbit( 2 * rand() - RAND_MAX) - vy_abs);
 }
 
 //return pos e spe boid
@@ -51,33 +55,46 @@ Speed Boid::return_boid_spe() const{
 }
 
 void Boid::check_edge(){
-    if (position_boid.x_pos()<LEFTMARGIN){
+    if (position_boid.x_pos() + speed_boid.x_spe() < LEFTMARGIN){
         speed_boid.set_x_spe(speed_boid.x_spe() + TURNFACTOR);
+        cout << "Incrementata vx " << return_boid_spe() << endl;
     }
-    if (position_boid.x_pos()>RIGHTMARGIN){
+    if (position_boid.x_pos() + speed_boid.x_spe() > RIGHTMARGIN){
         speed_boid.set_x_spe(speed_boid.x_spe() - TURNFACTOR);
+        cout << "Decrementata vx" << return_boid_spe() << endl;
     }
-    if (position_boid.y_pos()<BOTTOMMARGIN){
+    if (position_boid.y_pos() + speed_boid.y_spe() < BOTTOMMARGIN){
         speed_boid.set_y_spe(speed_boid.y_spe() + TURNFACTOR);
+        cout << "Incrementata vy" << return_boid_spe() << endl;
     }
-    if (position_boid.x_pos()>TOPMARGIN){
+    if (position_boid.y_pos() + speed_boid.y_spe() > TOPMARGIN){
         speed_boid.set_y_spe(speed_boid.y_spe() - TURNFACTOR);
+        cout << "Decrementata vy" << return_boid_spe() << endl;
     }
+
+    
 }
 
 void Boid::move_boid(){
+    check_speed();
+    check_edge();
     position_boid.set_x_pos(position_boid.x_pos() + speed_boid.x_spe());
     position_boid.set_y_pos(position_boid.y_pos() + speed_boid.y_spe());
 }
 
 void Boid::check_speed(){
     if (speed_boid.abs_speed() > MAXSPEED){
-        speed_boid.set_x_spe((speed_boid.x_spe()/speed_boid.abs_speed())*MAXSPEED);
-        speed_boid.set_y_spe((speed_boid.y_spe()/speed_boid.abs_speed())*MINSPEED);
+        
+        cout << "Fattore di scala: " << ceilf((MAXSPEED/speed_boid.abs_speed())* 100) / 100<< endl;
+        speed_boid.set_x_spe(speed_boid.x_spe()* (ceilf((MAXSPEED/speed_boid.abs_speed())* 100) / 100));
+        speed_boid.set_y_spe(speed_boid.y_spe()*(ceilf((MAXSPEED/speed_boid.abs_speed())* 100) / 100));
+        cout << "Modicata velocità max " << return_boid_spe() << " con valore assoluto " << speed_boid.abs_speed()  << endl;
     }
     if (speed_boid.abs_speed() < MINSPEED){
-        speed_boid.set_x_spe((speed_boid.x_spe()/speed_boid.abs_speed())*MINSPEED);
-        speed_boid.set_y_spe((speed_boid.y_spe()/speed_boid.abs_speed())*MAXSPEED);
+         cout << "Fattore di scala: " << ceilf(MINSPEED/speed_boid.abs_speed() * 100) / 100 << endl;
+        speed_boid.set_x_spe(speed_boid.x_spe()*(ceilf((MINSPEED/speed_boid.abs_speed())* 100) / 100));
+        speed_boid.set_y_spe(speed_boid.y_spe()* (ceilf((MINSPEED/speed_boid.abs_speed())* 100) / 100));
+        cout << "Modicata velocità min " << return_boid_spe() << " con valore assoluto " << speed_boid.abs_speed()  << endl;
     }
 }
 

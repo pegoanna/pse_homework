@@ -20,8 +20,6 @@ class Boid{
         Speed return_boid_spe() const;
 
         void move_boid();
-        void check_edge();
-        void check_speed();
         //funzione per il calcolo della distanza
         float distance(Boid& second_boid);
 
@@ -30,6 +28,10 @@ class Boid{
         void cohesion(vector<Boid>& otherboid);
 
     private:
+
+        void check_edge();
+        void check_speed();
+
         Position position_boid;
         Speed speed_boid;
 };

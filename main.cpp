@@ -4,21 +4,37 @@ using std::endl;
 #include <ostream>
 #include "boid.h"
 #include <vector>
-using std::vector;
+#include <fstream>
 
-#define DIM_VECTOR 10
+using std::vector;
+using namespace std;
+
+#define DIM_VECTOR 1
+#define NUMBER_MOVEMENT 20
 int main()
 {
 
     vector<Boid> boid_vector;
+
+    ofstream outfile  ("coordinates.txt")   ;
+
     
     cout<<"Ciao Alberto"<<endl;
     srand(static_cast<unsigned> (time(0)));
     Boid Alberto;
-    cout << "Posizione iniziale del boid: "<< Alberto <<endl;
+    cout << "Creato boid con valori: "<< Alberto << "con velocità assoluta: " << Alberto.return_boid_spe().abs_speed() << endl;
+
+    for (int i = 0; i < NUMBER_MOVEMENT ; ++i)
+    {
+        Alberto.move_boid();
+        outfile << "Alberto si muove in posizione " << Alberto.return_boid_pos() << " con velocità "  << Alberto.return_boid_spe() << endl;
+        
+        cout << "Alberto si muove in posizione " << Alberto.return_boid_pos() << " con velocità "  << Alberto.return_boid_spe() << endl;
+    }
     
     
-    for (int i{0}; i <DIM_VECTOR ; ++i)
+    
+    /*for (int i{0}; i <DIM_VECTOR ; ++i)
     {
         boid_vector.push_back(Boid()); 
     }
@@ -26,64 +42,15 @@ int main()
     {
         cout<<"coordinate iniziali boid numero "<<i<<" : "<<boid_vector[i]<<endl;  
     }
+    for (int j{0}; j<NUMBER_MOVEMENT; ++j){
+        for (auto itr{boid_vector.begin()}; itr != boid_vector.end() ; ++itr)
+        {
+            itr->move_boid();
+            cout<<*itr<<endl;  
+        }
+    }*/
 
-    for (auto itr{boid_vector.begin()}; itr != boid_vector.end() ; ++itr)
-    {
-        itr->move_boid();
-        cout<<*itr<<endl;  
-    }
- 
+    outfile.close();
 
-
-
-
-
-
-    /*
-    copy(boid_vector.cbegin(), boid_vector.cend(),
-		operator<<(cout,boid_vector.cbegin())); //iteratore per l'output
-	cout << endl;*/
-
-
-
-
-
-/*
-	Date default_d;
-	cout << "Default date: " << default_d << endl;
-	Date today{1978,Date::Month::jun,25};  // colloquial style
-	Date tomorrow = today;  // copy constructor
-	tomorrow.add_day(1);
-	Date next_year = today;
-	next_year.add_year(1);
-	cout << "Today: " << today << endl;
-	cout << "Tomorrow: " << tomorrow << endl;
-	cout << "Next year: " << next_year << endl;
-	Date invalid_date = Date{2004,Date::Month::dec,-5};   // verbose style
-*/
-
-
-
-
-
-	return 0;	
+    return 0;	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
