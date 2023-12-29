@@ -50,6 +50,6 @@ void Position::set_y_pos(float py){
 // operators
 ostream& operator<<(ostream& os, const Position& p)
 {
-	return os << '(' << p.x_pos()
-		<< ',' << p.y_pos() << ')';
+	return os  << p.x_pos()
+		<< ' ' << p.y_pos();
 }

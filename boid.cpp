@@ -7,16 +7,19 @@ using std::ostream;
 #include <vector>
 using std::vector;
 
-#define TURNFACTOR 2
+#define TURNFACTOR 10
+
 #define LEFTMARGIN 2
 #define RIGHTMARGIN 48
 #define BOTTOMMARGIN 2
 #define TOPMARGIN 28
-#define D_SEP 5
-#define D_CA 2
-#define AVOIDFACTOR 1
-#define ALIGNFACTOR 1
-#define CENTERINGFACTOR 1
+
+#define D_SEP 6
+#define D_CA 6
+
+#define AVOIDFACTOR 6
+#define ALIGNFACTOR 6
+#define CENTERINGFACTOR 6
 
 #define MAXSPEED 7
 #define MINSPEED 2
@@ -57,28 +60,28 @@ Speed Boid::return_boid_spe() const{
 void Boid::check_edge(){
     if (position_boid.x_pos() + speed_boid.x_spe() < LEFTMARGIN){
         speed_boid.set_x_spe(speed_boid.x_spe() + TURNFACTOR);
-        cout << "Incrementata vx " << return_boid_spe() << endl;
+        //cout << "Incrementata vx " << return_boid_spe() << endl;
         if((speed_boid.abs_speed() > MAXSPEED) || (speed_boid.abs_speed() < MINSPEED)){
             check_speed();
         }
     }
     if (position_boid.x_pos() + speed_boid.x_spe() > RIGHTMARGIN){
         speed_boid.set_x_spe(speed_boid.x_spe() - TURNFACTOR);
-        cout << "Decrementata vx" << return_boid_spe() << endl;
+        //cout << "Decrementata vx" << return_boid_spe() << endl;
         if((speed_boid.abs_speed() > MAXSPEED) || (speed_boid.abs_speed() < MINSPEED)){
             check_speed();
         }
     }
     if (position_boid.y_pos() + speed_boid.y_spe() < BOTTOMMARGIN){
         speed_boid.set_y_spe(speed_boid.y_spe() + TURNFACTOR);
-        cout << "Incrementata vy" << return_boid_spe() << endl;
+        //cout << "Incrementata vy" << return_boid_spe() << endl;
         if((speed_boid.abs_speed() > MAXSPEED) || (speed_boid.abs_speed() < MINSPEED)){
             check_speed();
         }
     }
     if (position_boid.y_pos() + speed_boid.y_spe() > TOPMARGIN){
         speed_boid.set_y_spe(speed_boid.y_spe() - TURNFACTOR);
-        cout << "Decrementata vy" << return_boid_spe() << endl;
+        //cout << "Decrementata vy" << return_boid_spe() << endl;
         if((speed_boid.abs_speed() > MAXSPEED) || (speed_boid.abs_speed() < MINSPEED)){
             check_speed();
         }
@@ -89,7 +92,6 @@ void Boid::check_edge(){
 
 void Boid::move_boid(){
     check_edge();
-    //check_speed();
     position_boid.set_x_pos(position_boid.x_pos() + speed_boid.x_spe());
     position_boid.set_y_pos(position_boid.y_pos() + speed_boid.y_spe());
 }
@@ -97,17 +99,17 @@ void Boid::move_boid(){
 void Boid::check_speed(){
     if (speed_boid.abs_speed() > MAXSPEED){
         float abs_value = speed_boid.abs_speed();
-        cout << "Fattore di scala: " << ceilf((MAXSPEED/abs_value)* 100) / 100<< endl;
-        speed_boid.set_x_spe(speed_boid.x_spe()* (ceilf((MAXSPEED/abs_value)* 100) / 100));
-        speed_boid.set_y_spe(speed_boid.y_spe()*(ceilf((MAXSPEED/abs_value)* 100) / 100));
-        cout << "Modicata velocità max " << return_boid_spe() << " con valore assoluto " << speed_boid.abs_speed()  << endl;
+        //cout << "Fattore di scala: " << floorf((MAXSPEED/abs_value)* 100) / 100<< endl;
+        speed_boid.set_x_spe(speed_boid.x_spe()* (floorf((MAXSPEED/abs_value)* 100) / 100));
+        speed_boid.set_y_spe(speed_boid.y_spe()*(floorf((MAXSPEED/abs_value)* 100) / 100));
+        //cout << "Modicata velocità max " << return_boid_spe() << " con valore assoluto " << speed_boid.abs_speed()  << endl;
     }
     if (speed_boid.abs_speed() < MINSPEED){
         float abs_value = speed_boid.abs_speed();
-         cout << "Fattore di scala: " << ceilf(MINSPEED/abs_value * 100) / 100 << endl;
+        //cout << "Fattore di scala: " << ceilf(MINSPEED/abs_value * 100) / 100 << endl;
         speed_boid.set_x_spe(speed_boid.x_spe()*(ceilf((MINSPEED/abs_value)* 100) / 100));
         speed_boid.set_y_spe(speed_boid.y_spe()* (ceilf((MINSPEED/abs_value)* 100) / 100));
-        cout << "Modicata velocità min " << return_boid_spe() << " con valore assoluto " << speed_boid.abs_speed()  << endl;
+        //cout << "Modicata velocità min " << return_boid_spe() << " con valore assoluto " << speed_boid.abs_speed()  << endl;
     }
 }
 
@@ -115,7 +117,7 @@ float Boid::distance(Boid& second_boid){
     float deltax=position_boid.x_pos() - second_boid.position_boid.x_pos();
     float deltay=position_boid.y_pos() - second_boid.position_boid.y_pos();
 
-    return sqrt((deltax*deltax)+(deltay*deltay));
+    return (sqrt((deltax*deltax)+(deltay*deltay)));
 }
 
 
@@ -125,14 +127,17 @@ void Boid::separation(vector<Boid>& otherboid){
     float close_dy{0};
     
     for(auto itr=otherboid.begin(); itr<otherboid.end(); ++itr){
-        if(distance(*itr) < D_SEP){
+        //cout<<"distanza boid"<<distance(*itr)<<endl;
+        if((distance(*itr) <= D_SEP) && (distance(*itr)!= 0)){
             close_dx += position_boid.x_pos() - itr->position_boid.x_pos();
             close_dy += position_boid.y_pos() - itr->position_boid.y_pos();
         }
     }
-    
     speed_boid.set_x_spe(speed_boid.x_spe() + close_dx * AVOIDFACTOR);
     speed_boid.set_y_spe(speed_boid.y_spe() + close_dy * AVOIDFACTOR);
+    //cout<<"SEPARATION modifica"<<return_boid_spe()<<endl;
+    check_speed();
+    //cout<<"SEPARATION modifica per superazione limite "<<return_boid_spe()<<endl;
 }
 
 void Boid::alignment(vector<Boid>& otherboid){
@@ -142,7 +147,8 @@ void Boid::alignment(vector<Boid>& otherboid){
 
     
     for(auto itr=otherboid.begin(); itr<otherboid.end(); ++itr){
-        if(distance(*itr) < D_CA){
+        //cout<<"distanza boid"<<distance(*itr)<<endl;
+        if((distance(*itr) < D_CA) && (distance(*itr) != 0)){
             xvel_avg += itr->speed_boid.x_spe();
             yvel_avg += itr->speed_boid.y_spe();
             close_boids += 1;
@@ -153,8 +159,12 @@ void Boid::alignment(vector<Boid>& otherboid){
     yvel_avg = yvel_avg/close_boids;
     }
 
-    speed_boid.set_x_spe((xvel_avg - speed_boid.x_spe())*ALIGNFACTOR);
-    speed_boid.set_y_spe((yvel_avg - speed_boid.y_spe())*ALIGNFACTOR);
+    speed_boid.set_x_spe(speed_boid.x_spe() + ((xvel_avg - speed_boid.x_spe())*ALIGNFACTOR));
+    speed_boid.set_y_spe(speed_boid.y_spe() + ((yvel_avg - speed_boid.y_spe())*ALIGNFACTOR));
+    
+    //cout<<"ALIGNMENT modifica"<<return_boid_spe()<<endl;
+    check_speed();
+    //cout<<"ALIGNMENT modifica per superazione limite "<<return_boid_spe()<<endl;
 }
 
 void Boid::cohesion(vector<Boid>& otherboid){
@@ -164,7 +174,8 @@ void Boid::cohesion(vector<Boid>& otherboid){
 
     
     for(auto itr=otherboid.begin(); itr<otherboid.end(); ++itr){
-        if(distance(*itr) < D_CA){
+        cout<<"distanza boid"<<distance(*itr)<<endl;
+        if((distance(*itr) < D_CA) && (distance(*itr) != 0)){
             xpos_avg += itr->position_boid.x_pos();
             ypos_avg += itr->position_boid.y_pos();
             close_boids += 1;
@@ -173,10 +184,14 @@ void Boid::cohesion(vector<Boid>& otherboid){
     if (close_boids>0){
     xpos_avg = xpos_avg/close_boids;
     ypos_avg = ypos_avg/close_boids;
+    speed_boid.set_x_spe(speed_boid.x_spe() + ((xpos_avg - position_boid.x_pos())*CENTERINGFACTOR));
+    speed_boid.set_y_spe(speed_boid.y_spe() + ((ypos_avg - position_boid.y_pos())*CENTERINGFACTOR));
     }
 
-    speed_boid.set_x_spe((xpos_avg - position_boid.x_pos())*CENTERINGFACTOR);
-    speed_boid.set_y_spe((ypos_avg - position_boid.y_pos())*CENTERINGFACTOR);
+    
+    //cout<<"COHESION modifica"<<return_boid_spe()<<endl;
+    check_speed();
+    //cout<<"COHESION modifica per superazione limite "<<return_boid_spe()<<endl;
 }
 
 // operators
