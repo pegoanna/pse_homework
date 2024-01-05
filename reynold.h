@@ -10,8 +10,8 @@
 using namespace std;
 
 
-void reynold_alghoritm(vector<Boid>& VectorBoid, vector<Boid>::iterator BoidItr, int movement);
-void saveCoordinates(ostream file, vector<Boid>& VectorBoid, int movement);
+void reynold_alghoritm(vector<Boid>& VectorBoid, vector<Boid>::iterator BoidItr, int movement, int number_Boid);
+void saveCoordinates(ostream& file, vector<Boid>& VectorBoid, int movement);
 
 
 #endif

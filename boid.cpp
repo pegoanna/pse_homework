@@ -7,19 +7,19 @@ using std::ostream;
 #include <vector>
 using std::vector;
 
-#define TURNFACTOR 10
+#define TURNFACTOR 3
 
 #define LEFTMARGIN 2
 #define RIGHTMARGIN 48
 #define BOTTOMMARGIN 2
 #define TOPMARGIN 28
 
-#define D_SEP 10
-#define D_CA 6
+#define D_SEP 7
+#define D_CA 4
 
-#define AVOIDFACTOR 3
-#define ALIGNFACTOR 3
-#define CENTERINGFACTOR 3
+#define AVOIDFACTOR 0.7
+#define ALIGNFACTOR 0.7
+#define CENTERINGFACTOR 0.7
 
 #define MAXSPEED 7
 #define MINSPEED 2
@@ -94,6 +94,7 @@ void Boid::move_boid(){
     check_edge();
     position_boid.set_x_pos(position_boid.x_pos() + speed_boid.x_spe());
     position_boid.set_y_pos(position_boid.y_pos() + speed_boid.y_spe());
+    //cout<<"boid spostato alla posizione"<<return_boid_pos()<<endl;
 }
 
 void Boid::check_speed(){
@@ -173,7 +174,7 @@ void Boid::cohesion(vector<Boid>& otherboid){
 
     
     for(auto itr=otherboid.begin(); itr<otherboid.end(); ++itr){
-        cout<<"distanza boid"<<distance(*itr)<<endl;
+        //cout<<"distanza boid"<<distance(*itr)<<endl;
         if((distance(*itr) < D_CA) && (distance(*itr) != 0)){
             xpos_avg += itr->position_boid.x_pos();
             ypos_avg += itr->position_boid.y_pos();

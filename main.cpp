@@ -20,7 +20,7 @@ using namespace std;
 
 
 
-#define DIM_VECTOR 15
+#define DIM_VECTOR 30
 #define NUMBER_MOVEMENT 50
 int main()
 {
@@ -68,18 +68,24 @@ int main()
         boid_vector.push_back(Boid());
    }
    
+   cout<<"Avvio del boid"<<DIM_VECTOR<<"per"<<NUMBER_MOVEMENT<<"movimenti"<<endl;
+   
    for(auto itr{boid_vector.begin()}; itr != boid_vector.end(); ++itr){
-        thread_boid_vector.push_back(thread{reynold_alghoritm, ref(boid_vector), itr, NUMBER_MOVEMENT});
+        thread_boid_vector.push_back(thread{reynold_alghoritm, ref(boid_vector), itr, NUMBER_MOVEMENT, DIM_VECTOR});
    }
 
-    cout<<"Avvio del boid"<<DIM_VECTOR<<"per"<<NUMBER_MOVEMENT<<"movimenti"<<endl;
+   thread save{saveCoordinates, ref(outfile), ref(boid_vector), NUMBER_MOVEMENT};
+
+    
    
    for(auto itr{thread_boid_vector.begin()}; itr != thread_boid_vector.end(); ++itr){
         itr->join();
    }
 
-   cout<<"risultati salvati nel  file delle coordinate"<<endl;
+   save.join();
 
+   cout<<"risultati salvati nel file delle coordinate"<<endl;
+    
     
 
     outfile.close();

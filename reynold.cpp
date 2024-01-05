@@ -5,46 +5,63 @@ condition_variable readyToControlPosition;
 condition_variable readyToSafe;
 condition_variable readyToMove;
 
-void reynold_alghoritm(vector<Boid>& VectorBoid, vector<Boid>::iterator BoidItr, int movement){
+int performed{0};
+int moved{0};
+
+void reynold_alghoritm(vector<Boid>& VectorBoid, vector<Boid>::iterator BoidItr, int movement, int number_Boid){
     
-    //unique_lock<mutex> mlock(mut);
-
-    cout<<"Numero della thread: "<<std::this_thread::get_id()<<endl;
-
+    unique_lock<mutex> lock(mut);
     int movement_performed{0};
 
     while (movement_performed < movement){
-        //readyToControlPosition.wait(mlock);
-        mut.lock();
-        cout<<"inizio calcoli"<<endl;
+        
         BoidItr->separation(VectorBoid);
         BoidItr->alignment(VectorBoid);
         BoidItr->cohesion(VectorBoid);
-        mut.unlock();
-        //readyToControlPosition.notify_one();
-        movement_performed++;
 
-        if (BoidItr == (VectorBoid.end()-1)){
+        performed++;
+        cout<<"Boid calcolati"<<performed<<endl;
+
+        if (performed < number_Boid){
+            readyToMove.wait(lock);
+        }
+        else{
+            readyToMove.notify_all();
+        }
+
+        BoidItr->move_boid();
+
+        moved++;
+        cout<<"Boid mossi"<<moved<<endl;
+
+        if(moved == number_Boid){
             readyToSafe.notify_one();
         }
+        movement_performed++;
+        cout<<"calcolo"<<movement_performed<<endl;
+        readyToControlPosition.wait(lock);
     }
    
 }
 
 
-void saveCoordinates(ostream file, vector<Boid>& VectorBoid, int movement){
-    unique_lock<mutex> mlock(mut);
+void saveCoordinates(ostream& file, vector<Boid>& VectorBoid, int movement){
+    unique_lock<mutex> lock(mut);
     int movement_saved{0};
 
     while (movement_saved < movement){
-        readyToSafe.wait(mlock);
+        readyToSafe.wait(lock);
 
         for(auto itr{VectorBoid.begin()}; itr !=VectorBoid.end(); ++itr){
-            itr->move_boid();
-            file<<itr->return_boid_pos();
+            file<<itr->return_boid_pos()<<" ";
         }
         file<<endl;
 
         movement_saved++;
+        performed = 0;
+        moved = 0;
+
+        readyToControlPosition.notify_all();
+
     }
 }
