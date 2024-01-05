@@ -5,6 +5,7 @@
 #include "position.h"
 #include "speed.h"
 #include <vector>
+#include <iostream>
 using std::vector;
 #include <ostream>
 

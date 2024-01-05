@@ -14,12 +14,12 @@ using std::vector;
 #define BOTTOMMARGIN 2
 #define TOPMARGIN 28
 
-#define D_SEP 6
+#define D_SEP 10
 #define D_CA 6
 
-#define AVOIDFACTOR 6
-#define ALIGNFACTOR 6
-#define CENTERINGFACTOR 6
+#define AVOIDFACTOR 3
+#define ALIGNFACTOR 3
+#define CENTERINGFACTOR 3
 
 #define MAXSPEED 7
 #define MINSPEED 2
@@ -100,7 +100,7 @@ void Boid::check_speed(){
     if (speed_boid.abs_speed() > MAXSPEED){
         float abs_value = speed_boid.abs_speed();
         //cout << "Fattore di scala: " << floorf((MAXSPEED/abs_value)* 100) / 100<< endl;
-        speed_boid.set_x_spe(speed_boid.x_spe()* (floorf((MAXSPEED/abs_value)* 100) / 100));
+        speed_boid.set_x_spe(speed_boid.x_spe()*(floorf((MAXSPEED/abs_value)* 100) / 100));
         speed_boid.set_y_spe(speed_boid.y_spe()*(floorf((MAXSPEED/abs_value)* 100) / 100));
         //cout << "Modicata velocità max " << return_boid_spe() << " con valore assoluto " << speed_boid.abs_speed()  << endl;
     }
@@ -116,7 +116,6 @@ void Boid::check_speed(){
 float Boid::distance(Boid& second_boid){
     float deltax=position_boid.x_pos() - second_boid.position_boid.x_pos();
     float deltay=position_boid.y_pos() - second_boid.position_boid.y_pos();
-
     return (sqrt((deltax*deltax)+(deltay*deltay)));
 }
 

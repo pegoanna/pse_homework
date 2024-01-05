@@ -1,10 +1,12 @@
 #include <iostream>
-using std::cout;
-using std::endl;
 #include <ostream>
 #include "boid.h"
 #include <vector>
 #include <fstream>
+//librerie per thread e mutex
+#include <thread>
+#include <mutex>
+#include "reynold.h"
 
 using std::vector;
 using namespace std;
@@ -25,22 +27,12 @@ int main()
 
     srand(static_cast<unsigned> (time(0)));
     vector<Boid> boid_vector;
+    vector<thread> thread_boid_vector;
 
     ofstream outfile  ("coordinates.txt")   ;
     outfile<<X_MIN<<" "<<X_MAX<<" "<<Y_MIN<<" "<<Y_MAX<<endl;
     /*
-    cout<<"Ciao Alberto"<<endl;
-    Boid Alberto;
-    cout << "Creato boid con valori: "<< Alberto << "con velocità assoluta: " << Alberto.return_boid_spe().abs_speed() << endl;
-
-    for (int i = 0; i < NUMBER_MOVEMENT ; ++i)
-    {
-        Alberto.move_boid();
-        outfile << "Alberto si muove in posizione " << Alberto.return_boid_pos() << " con velocità "  << Alberto.return_boid_spe() << endl;
-        cout << "Alberto si muove in posizione " << Alberto.return_boid_pos() << " con velocità "  << Alberto.return_boid_spe() << endl;
-    }
-    */
-    
+    // senza thread
     for (int i{0}; i <DIM_VECTOR ; ++i)
     {
         boid_vector.push_back(Boid()); 
@@ -68,6 +60,27 @@ int main()
         cout<<endl;
         count=0;
     }
+    */
+
+
+   //con thread
+   for(int i{0}; i<DIM_VECTOR; ++i){
+        boid_vector.push_back(Boid());
+   }
+   
+   for(auto itr{boid_vector.begin()}; itr != boid_vector.end(); ++itr){
+        thread_boid_vector.push_back(thread{reynold_alghoritm, ref(boid_vector), itr, NUMBER_MOVEMENT});
+   }
+
+    cout<<"Avvio del boid"<<DIM_VECTOR<<"per"<<NUMBER_MOVEMENT<<"movimenti"<<endl;
+   
+   for(auto itr{thread_boid_vector.begin()}; itr != thread_boid_vector.end(); ++itr){
+        itr->join();
+   }
+
+   cout<<"risultati salvati nel  file delle coordinate"<<endl;
+
+    
 
     outfile.close();
 
