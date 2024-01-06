@@ -1,4 +1,3 @@
-//position.h 
 #ifndef POSITION_H
 #define POSITION_H
 
@@ -6,11 +5,11 @@
 
 class Position{
     public:
-        //constructors
+        //costruttori
         Position(float x, float y);
         Position();
 
-        //const members
+        //funzioni di ritorno
         float x_pos() const;
         float y_pos() const;
 
@@ -26,5 +25,4 @@ class Position{
 // operators
         std::ostream& operator<<(std::ostream& os, const Position& p);
    
-
 #endif

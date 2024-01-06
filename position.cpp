@@ -25,8 +25,6 @@ const Position& default_position()
 Position::Position()
     :x{default_position().x_pos()}, y{default_position().y_pos()}
 {
-   // x += static_cast<float> (rand())/(RAND_MAX/(RIGHTMARGIN - LEFTMARGIN ));
-   // y += static_cast<float> (rand())/(RAND_MAX/(TOPMARGIN - BOTTOMMARGIN ));
 }
 
 //return x e y

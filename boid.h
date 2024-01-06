@@ -1,29 +1,30 @@
-//boid.h 
 #ifndef BOID_H
 #define BOID_H
 
 #include "position.h"
 #include "speed.h"
 #include <vector>
-#include <iostream>
 using std::vector;
 #include <ostream>
 
 class Boid{
     public:
 
-        //constructors
+        //costruttori
         Boid(Position position_boid, Speed speed_boid);
         Boid();
 
-        //return funtions
+        //funzioni di ritorno
         Position return_boid_pos() const;
         Speed return_boid_spe() const;
 
+        //funzione per muovere il boid
         void move_boid();
+
         //funzione per il calcolo della distanza
         float distance(Boid& second_boid);
 
+        //criteri per l'algoritmo
         void separation(vector<Boid>& otherboid);
         void alignment(vector<Boid>& otherboid);
         void cohesion(vector<Boid>& otherboid);

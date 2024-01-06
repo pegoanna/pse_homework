@@ -2,6 +2,7 @@
 #define REYNOLD_H
 
 #include <fstream>
+#include <iostream>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -10,8 +11,8 @@
 using namespace std;
 
 
-void reynold_alghoritm(vector<Boid>& VectorBoid, vector<Boid>::iterator BoidItr, int movement, int number_Boid);
-void saveCoordinates(ostream& file, vector<Boid>& VectorBoid, int movement);
+void reynold_alghoritm(vector<Boid>& BoidVector, vector<Boid>::iterator BoidItr, int movement, int number_Boid);
+void saveCoordinates(ostream& file, vector<Boid>& BoidVector, int movement);
 
 
 #endif
